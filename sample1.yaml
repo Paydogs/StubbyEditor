@@ -1,0 +1,4055 @@
+# Startup
+#-  request:
+#      url: ^/i18n.json$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: startup/i18n.json
+- request:
+    url: ^/i18n.json$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        mobilebank-android-minimum-version: 1
+        mobilebank-android-current-version: 5800
+        mobilebank-ios-minimum-version: 1
+        mobilebank-ios-current-version: 5801
+      file: startup/i18n_light.json
+
+- request:
+    url: ^/multivalue/file.json$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: startup/file.json
+    - status: 404
+      headers:
+        content-type: application/json
+      file: startup/file_failed.json
+
+- request:
+    url: ^/demo.json$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: startup/config_demo.json
+
+# region Atm finder
+- request:
+    url: ^/apps/smartbank/api/closed-branch/all$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: atm/closed_branch.json
+
+- request:
+    url: ^/apps/smartbank/api/atmbranch/all$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: atm/atmbranch_all.json
+
+# endregion
+
+# region Exchange calculator
+- request:
+    url: ^/apps/rate/api/rate/otp/.*$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: exchange/otp.json
+
+- request:
+    url: ^/apps/rate/api/rate/exchange$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: exchange/calculator.json
+
+# endregion
+
+# region Registration - Session
+
+# Registration
+- request:
+    url: ^/challenge$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: activation/challenge.json
+- request:
+    url: ^/activation/session$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: ACTIVATION_TOKEN=4c666217-30c9-417e-a763-42cf1a145fb4; Path=/activation; HTTPOnly
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: activation/session.json
+- request:
+    url: ^/activation/login$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: ACTIVATION_TOKEN=403e11a7-41ab-43ea-882c-9ee47e1d7b07; Path=/activation; HTTPOnly
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: activation/login.json
+- request:
+    url: ^/activation/sla$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: ACTIVATION_TOKEN=45283571-0718-4458-b323-864a15d1a8bf; Path=/activation; HTTPOnly
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: activation/sla.json
+- request:
+    url: ^/activation/key$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: activation/key.json
+- request:
+    url: ^/session$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: SESSION_TOKEN=5f2708a6-2b11-48c8-bc0f-af6a6153cea6; Path=/; HTTPOnly
+        X-Correlation-Id: 137673759353325688248537880985800049
+        X-TransactionId: GL4e0NvnvNTx66595152
+      file: session.json
+
+# Session
+- request:
+    url: ^/activation/session/extend$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: SESSION_TOKEN=5f2708a6-2b11-48c8-bc0f-af6a6153cea6; Path=/; HTTPOnly
+        X-TransactionId: 123asd123asd123asd
+      file: session_extend.json
+- request:
+    url: ^/session/extend$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        Set-Cookie: SESSION_TOKEN=5f2708a6-2b11-48c8-bc0f-af6a6153cea6; Path=/; HTTPOnly
+        X-TransactionId: 123asd123asd123asd
+      file: session_extend.json
+- request:
+    url: ^/activation/deactivate$
+    method: DELETE
+  response:
+    - status: 200
+      headers:
+        X-TransactionId: GL4e0NvnvNTx66595152
+- request:
+    url: ^/session$
+    method: DELETE
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region PFM
+- request:
+    url: ^/api/v9/pfm/accounts/reports/incomes-and-spendings.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: pfm/incomes_and_spendings.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/month-report.*$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: pfm/balance_monthly_report.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/combined-monthly-report/bill.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: pfm/bill_combined_report.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/subcategory-report/bill.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: pfm/bill_subcategory_report.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/categorized-monthly-report.*$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: pfm/transactions_monthly_categorized.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/combined-monthly-report.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 4000
+      headers:
+        content-type: application/json
+      file: pfm/combined_report.json
+
+- request:
+    url: ^/api/v9/pfm/accounts/reports/carbon-footprint-report.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: pfm/carbon_footprint_report.json
+
+# sustainability function disabled by whitelist
+#- request:
+#    url: ^/api/v9/pfm/accounts/reports/carbon-footprint-report.*$
+#    method: GET
+#  response:
+#    - status: 503
+#      latency: 500
+#      headers:
+#        content-type: application/json
+#      file: pfm/carbon_footprint_report_disabled_error.json
+
+# endregion
+
+# region trx
+
+# Template for testing paging
+#- request:
+#    url: ^/api/v11/transactions/transactions/processed$
+#    method: POST
+#    post: ^.*"pageIdx":0.*$
+#  response:
+#    - status: 200
+#      latency: 1000
+#      headers:
+#        content-type: application/json
+#      file: trx/list.json
+
+- request:
+    url: ^/api/v11/transactions/transactions/processed$
+    method: POST
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: trx/list.json
+
+- request:
+    url: ^/api/v11/transactions/transaction/push/detail$
+    method: GET
+  response:
+    - status: 200
+      latency: 3000
+      headers:
+        content-type: application/json
+      file: trx/push-detail.json
+
+- request:
+    url: ^/api/v11/transactions/categories$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/categories.json
+      # file: trx/categories_without_user_category.json
+
+- request:
+    url: ^/api/v11/transactions/category$
+    method: PUT
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v11/transactions/category$
+    method: POST
+  response:
+    - status: 201
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/beer_new_category.json
+
+- request:
+    url: ^/api/v11/transactions/category/.+$
+    method: DELETE
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v11/transactions/transactions/category$
+    method: PUT
+  response:
+    - status: 204
+      latency: 1000
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v11/transactions/transactions/inprogress/future$
+    method: POST
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-future-mock1.json
+
+# - request:
+#     url: ^/api/v11/transactions/transactions/inprogres
+#     method: POST
+#   response:
+#     - status: 200
+#       latency: 2000
+#       headers:
+#         content-type: application/json
+#       file: trx/inprogress-denied-mock1.json
+
+# Denied inprogress with donation
+- request:
+    url: ^/api/v11/transactions/transactions/inprogress/denied$
+    method: POST
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-denied-mock1-with-donation.json
+
+# - request:
+#     url: ^/api/v11/transactions/transactions/inprogress/living$
+#     method: POST
+#   response:
+#     - status: 200
+#       latency: 2000
+#       headers:
+#         content-type: application/json
+#       file: trx/inprogress-living-mock1.json
+
+# Living inprogress with donation
+- request:
+    url: ^/api/v11/transactions/transactions/inprogress/living$
+    method: POST
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-living-mock1-with-donation.json
+
+- request:
+    url: ^/api/v11/transactions/transaction/inprogress/living/345245624524511$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-living-details_trx_id_345245624524511.json
+
+# - request:
+#     url: ^/api/v11/transactions/transaction/inprogress/living/345245624524622$
+#     method: GET
+#   response:
+#     - status: 200
+#       latency: 2000
+#       headers:
+#         content-type: application/json
+#       file: trx/inprogress-living-details_trx_id_345245624524622.json
+
+# Living inprogress details with donation
+- request:
+    url: ^/api/v11/transactions/transaction/inprogress/living/345245624524622$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-living-details_trx_id_345245624524622-with-donation.json
+
+- request:
+    url: ^/api/v11/transactions/transaction/inprogress/living/345245624524733$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: trx/inprogress-living-details_trx_id_345245624524733.json
+
+# suggestions for a partner
+- request:
+    url: ^/api/v11/transactions/transactions/suggestions$
+    method: GET
+    query:
+      profileId: .*
+      partnerId: ^087c3f93\-ccb4\-428e\-9171\-761bea1666df$
+  response:
+    - status: 200
+      latency: 6000
+      headers:
+        content-type: application/json
+      file: trx/suggestions.json
+
+# error when querying suggestions
+- request:
+    url: ^/api/v11/transactions/transactions/suggestions$
+    method: GET
+    query:
+      profileId: .*
+      partnerId: ^4724d3de\-3281\-48f9\-82ef\-422034416b76$
+  response:
+    - status: 500
+      latency: 6000
+      headers:
+        content-type: application/json
+      file: trx/suggestions-empty.json
+
+# no suggestions, empty response
+- request:
+    url: ^/api/v11/transactions/transactions/suggestions$
+    method: GET
+    query:
+      profileId: .*
+      partnerId: ^[\w-]+$
+  response:
+    - status: 200
+      latency: 6000
+      headers:
+        content-type: application/json
+      file: trx/suggestions-empty.json
+
+# endregion
+
+# region bill payment
+- request:
+    url: ^/api/v1/bills/mandates$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandates.json
+
+- request:
+    url: ^/api/v1/bills/accounts/1177301600000268/mandates/ELMUEMASZ/0001$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_elmuemasz.json
+
+- request:
+    url: ^/api/v1/bills/accounts/1177301600000268/mandates/GARANCIA/0002$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_garancia.json
+
+- request:
+    url: ^/api/v1/bills/accounts/1111111111111111/mandates/VODAFONE/0003$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_vodafone.json
+
+- request:
+    url: ^/api/v1/bills/accounts/1177301600000268/mandates/WESTELMOBIL/0004$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_westelmobil.json
+
+- request:
+    url: ^/api/v1/bills/accounts/1177301600000388/mandates/TELEKOM/0005$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_telekom.json
+
+- request:
+    url: ^/api/v1/bills/accounts/666666669999999933333333/mandates/FOTAV/0006$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: billpayment/mandate_details_beneficiary_fotav.json
+
+# endregion
+
+# region credits
+# (pos installment)
+- request:
+    url: ^/api/v23/credits/accounts/2222222222222222/instalment-documents$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/instalment-documents.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333355555555/instalment-pos-settings$
+    method: PUT
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instalment-pos-settings$
+    method: PUT
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/2222222222222222/instalment-declarations$
+    method: POST
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+# (automatic installment)
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/calculation-values$
+    method: GET
+    query:
+      instalment_type: ^AUTOMATIC$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-automatic.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/automatic-instalment-calculations$
+    method: GET
+    query:
+      term: ^12$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/automatic_instalment_calculations.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/automatic-instalment-calculations$
+    method: GET
+    query:
+      term: ^18$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/automatic_instalment_calculations_18.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/automatic-instalment$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/automatic-instalment$
+    method: DELETE
+    query:
+      transaction_id: 2991260088
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/automatic-instalment$
+    method: DELETE
+  response:
+    - status: 428
+      headers:
+        content-type: application/json
+      file: credits/mfa.json
+
+# (instant installment)
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/calculation-values$
+    method: GET
+    query:
+      instalment_type: ^INSTANT$
+  response:
+    - status: 200
+      #    - status: 403
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-instant.json
+#      file: credits/calculation-values-403.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instant-instalment-calculations$
+    method: GET
+    query:
+      term: ^12$
+      loan_amount: ^500000$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/instant_instalment_calculations_12.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instant-instalment-calculations$
+    method: GET
+    query:
+      term: ^12$
+      loan_amount: ^600000$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/instant_instalment_calculations_12_2.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instant-instalment-calculations$
+    method: GET
+    query:
+      term: ^18$
+      loan_amount: ^600000$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: credits/instant_instalment_calculations_18.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instant-instalments$
+    method: POST
+    query:
+      transaction_id: 2991260088
+  response:
+    - status: 204
+      latency: 1500
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/instant-instalments$
+    method: POST
+  response:
+    - status: 428
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: credits/mfa.json
+
+# (post installment)
+# calculation values
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^POS
+  response:
+    - status: 403
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-403.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333366666666/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^ATM
+  response:
+    - status: 403
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-403.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333333333333/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^POS
+  response:
+    - status: 403
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-403.json
+
+- request:
+    url: ^/api/v23/credits/accounts/3333333355555555/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^ATM
+  response:
+    - status: 403
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/calculation-values-403.json
+
+- request:
+    url: ^/api/v23/credits/accounts/\w+/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^POS
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-pos-calculation-values.json
+
+- request:
+    url: ^/api/v23/credits/accounts/\w+/posterior-instalment-calculation-values$
+    method: GET
+    query:
+      posterior_instalment_type: ^ATM
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-atm-calculation-values.json
+
+# transactions
+- request:
+    url: ^/api/v23/credits/accounts/1111111111111111/instalment-capable-transactions$
+    method: GET
+    query:
+      posterior_instalment_type: ^POS
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-pos-transactions_2.json
+
+- request:
+    url: ^/api/v23/credits/accounts/1111111111111111/instalment-capable-transactions$
+    method: GET
+    query:
+      posterior_instalment_type: ^ATM
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-atm-transactions_empty.json
+
+- request:
+    url: ^/api/v23/credits/accounts/\w+/instalment-capable-transactions$
+    method: GET
+    query:
+      posterior_instalment_type: ^POS
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-pos-transactions.json
+
+- request:
+    url: ^/api/v23/credits/accounts/\w+/instalment-capable-transactions$
+    method: GET
+    query:
+      posterior_instalment_type: ^ATM
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-atm-transactions.json
+
+# calculated values
+- request:
+    url: ^/api/v23/credits/accounts/\w+/posterior-instalment-calculations$
+    method: POST
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/post-instalment-calculated-values.json
+
+# create post installment
+- request:
+    url: ^/api/v23/credits/accounts/\w+/posterior-instalments$
+    method: POST
+    query:
+      transaction_id: 2991260088
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v23/credits/accounts/\w+/posterior-instalments$
+    method: POST
+  response:
+    - status: 428
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: credits/mfa.json
+
+# endregion credits
+
+# region crm
+- request:
+    url: ^/api/v8/adverts/tasks$
+    method: GET
+    query:
+      displayId: ^INSTALMENTS$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: crm/tasks_instalment.json
+
+- request:
+    url: ^/api/v8/adverts/tasks$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: crm/tasks_loan.json
+
+- request:
+    url: ^/api/v8/adverts/answers$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+# endregion crm
+
+# region callbackrequests
+
+- request:
+    url: ^/api/v1/callbackrequests$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: callbackrequests/callbackrequests.json
+- request:
+    url: ^/api/v1/callbackrequests$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region calculator
+
+- request:
+    url: ^/api/v1/calculator$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: calculator/calculator.json
+- request:
+    url: ^/api/v1/calculations$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: calculations/calculations.json
+- request:
+    url: ^/api/v1/calculations$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region DEPRECATED: PARTNER V5
+
+# Get partner list
+- request:
+    url: ^/api/v5/partner/partners$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: partner/v5/partners.json
+#      file: partner/v5/partners_empty.json
+
+# Delete Partner
+- request:
+    url: ^/api/v5/partner/partners$
+    method: PATCH
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region PARTNER V6
+
+# Get partner list - Change the response to the commented to receive empty list
+- request:
+    url: ^/api/v6/partner/partners
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/get-partners.json
+#      file: partner/v6/get-partners-empty.json
+
+# Create partner ERROR - Existing nickname - Set name to errorNickname in new partner to receive this response
+- request:
+    url: ^/api/v6/partner/partners
+    method: POST
+    post: ^.+error[N|n]ickname.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/post-partners-error-existing-nickname.json
+
+# Create partner ERROR - Existing target - Set name to errorTarget in new partner to receive this response
+- request:
+    url: ^/api/v6/partner/partners
+    method: POST
+    post: ^.+error[T|t]arget.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/post-partners-error-existing-target.json
+
+# Create partner ERROR - General - Set name to error in new partner to receive this response
+- request:
+    url: ^/api/v6/partner/partners
+    method: POST
+    post: ^.+error.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/post-partners-error-general.json
+
+# Create partner SUCCESS
+- request:
+    url: ^/api/v6/partner/partners
+    method: POST
+  response:
+    - status: 201
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/post-partners-success.json
+
+# Delete partner ERROR - Try to delete "Törölhetetlen" partner to receive this response
+- request:
+    url: ^/api/v6/partner/partners$
+    method: PATCH
+    post: ^.+b0d58f8c\-80db\-4040\-aa51\-091b74b4aacb.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: partner/v6/patch-partners-delete-error.json
+
+# Delete partner SUCCESS
+- request:
+    url: ^/api/v6/partner/partners$
+    method: PATCH
+  response:
+    - status: 204
+      latency: 1000
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region ACCOUNTINFO
+
+# AccruedInformation
+- request:
+    url: ^/api/v13/accounts/accounts/\w+/accrued-information
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: accountinfo/accrued-information.json
+
+# Accounts for transfer
+- request:
+    url: ^/api/v13/accounts/accounts$
+    method: GET
+    query:
+      profile_id: .*
+      filter: ^TransferAccounts$
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: accountinfo/accountinfo.json
+
+# External Accounts
+- request:
+    url: ^/api/v13/accounts/external-accounts$
+    method: GET
+  response:
+    - status: 200
+      latency: 2500
+      headers:
+        content-type: application/json
+      file: accountinfo/external_accounts.json
+
+# Custom name for accounts
+- request:
+    url: ^/api/v13/accounts/accounts/\w+/custom-names$
+    method: PUT
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: accountinfo/custom_names_put_200.json
+
+- request:
+    url: ^/api/v13/accounts/accounts/custom-names$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: accountinfo/custom_names_get_200.json
+
+- request:
+    url: ^/api/v13/accounts/accounts/\w+/custom-names$
+    method: DELETE
+  response:
+    - status: 204
+      latency: 2000
+
+## Accountinfo v10
+- request:
+    url: ^/api/v13/accounts/accounts/profile/.*
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: accountinfo/accountinfo_allcredit.json
+
+# AI_0050
+#- request:
+#    url: ^/api/v13/accounts/accounts/profile/\w+$
+#    method: GET
+#  response:
+#    - status: 200
+#      latency: 2000
+#      headers:
+#        content-type: application/json
+#      file: accountinfo/accountinfo_AI_0050.json
+
+# ---- GET Portfolio
+
+# The user has basically everything
+- request:
+    url: ^/api/v13/portfolio/portfolio/.*
+    method: GET
+  response:
+    - status: 200
+      latency: 3000
+      headers:
+        content-type: application/json
+      file: accountinfo/portfolio.json
+
+- request:
+    url: ^/api/v13/portfolio/portfolio/.*/securities-categories$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: accountinfo/securitycategories.json
+
+- request:
+    url: ^/api/v3/portfolio/deposits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: portfolio/full_deposit_handcrafted.json
+
+- request:
+    url: ^/api/v3/portfolio/funds$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: portfolio/funds.json
+
+- request:
+    url: ^/api/v3/portfolio/portfolio$
+    method: GET
+  query:
+    profile_id: .*
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: portfolio/portfolio.json
+
+- request:
+    url: ^/api/v3/portfolio/securities$
+    method: GET
+  query:
+    profile_id: .*
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: portfolio/securities.json
+
+# The server is indicating an error in the CLAVIS (and we don't even call the securities categories, but if we would call it, it would be an error)
+# -  request:
+#       url: ^/api/v13/portfolio/portfolio/\w+$
+#       method: GET
+#    response:
+#     - status: 200
+#       latency: 1000
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/portfolio_edgecase_securitycategories_failed.json
+#
+# -  request:
+#       url: ^/api/v13/portfolio/portfolio/\w+/securities-categories$
+#       method: GET
+#    response:
+#     - status: 401
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/securitycategories_error.json
+
+# The user has no securities at all.
+# -  request:
+#       url: ^/api/v13/accounts/portfolio/\w+$
+#       method: GET
+#    response:
+#     - status: 200
+#       latency: 1000
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/portfolio_edgecase_no_securities.json
+#
+# -  request:
+#       url: ^/api/v13/portfolio/portfolio/\w+/securities-categories$
+#       method: GET
+#    response:
+#     - status: 200
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/securitycategories_edgecase_no_securities.json
+
+# The user has only linked (stock) accounts
+# -  request:
+#       url: ^/api/v13/portfolio/portfolio/\w+$
+#       method: GET
+#    response:
+#     - status: 200
+#       latency: 1000
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/portfolio.json
+#
+# -  request:
+#       url: ^/api/v13/portfolio/portfolio/\w+/securities-categories$
+#       method: GET
+#    response:
+#     - status: 200
+#       headers:
+#          content-type: application/json
+#       file: accountinfo/securitycategories_edgecase_only_stock_accounts.json
+
+# ---- GET Portfolio END
+
+## Quick Balance ##
+
+# ---- EVERYTHING OK ---- #
+
+- request:
+    url: ^/api/v13/balances/accounts/quick-balances$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: accountinfo/quickbalance_200.json
+
+# ---- GWB ERROR ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 500
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_500_gwb_error.json
+
+# ---- URBIS ERROR ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_200_urbis_error.json
+
+# ---- WRONG ACCOUNTS ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_200_wrong_accounts.json
+
+# ---- EMPTY QB, HINT IS DISPLAYED ---- #
+
+#-  request:
+#      url: ^/api/v13/accounts/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_200_empty_accounts.json
+
+# ---- GLOBALLY TURNED OFF QB, WITH PREVIOUSLY SET QB ACCOUNTS ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_200_globally_turned_off.json
+
+# ---- GLOBALLY TURNED OFF QB, WITHOUT PREVIOUSLY SET QB ACCOUNTS ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 200
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_200_globally_turned_off_no_prev_accounts.json
+
+# ---- FRAUD DETECTED, QB NOT SHOWN, ERROR SHOULD DISPLAY ---- #
+
+#-  request:
+#      url: ^/api/v13/balances/accounts/quick-balances$
+#      method: GET
+#   response:
+#    - status: 403
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_403_fraud_detected.json
+
+# ---- QB SETTINGS, EVERYTHING OK ---- #
+
+- request:
+    url: ^/api/v13/balances/accounts/quick-balances/settings$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: accountinfo/quickbalance_settings_200.json
+
+# ---- QB SETTINGS, 200, BUT AI_0037 RESPONSE CODE ---- #
+
+#-  request:
+#      url: ^/api/v13/accounts/accounts/quick-balances/settings$
+#      method: GET
+#   response:
+#    - status: 200
+#      latency: 1000
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_settings_200_AI_0037.json
+
+# ---- QB SETTINGS, 500 SERVER ERROR ---- #
+
+#-  request:
+#      url: ^/api/v13/accounts/accounts/quick-balances/settings$
+#      method: GET
+#   response:
+#    - status: 500
+#      latency: 1000
+#      headers:
+#         content-type: application/json
+#      file: accountinfo/quickbalance_settings_500.json
+
+# ---- Securities accounts for securities purchase ---- #
+- request:
+    url: ^/api/v13/accounts/accounts/securities-accounts$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: governmentbonds/securites_accounts_for_purchase.json
+
+# ---- Installment account details ---- #
+- request:
+    url: ^/api/v13/accounts/accounts/credit-accounts/\w+/installment-accounts/\w+$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: accountinfo/installment_account_details.json
+
+# selectable accounts for instant installment
+- request:
+    url: ^/api/v13/accounts/accounts$
+    method: GET
+    query:
+      profile_id: .*
+      filter: ^CREDIT_CARD_REIMBURSEMENT_ACCOUNT
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: credits/instant_instalment_reimbursement_accounts.json
+
+# endregion
+
+# region CARD-DIGITIZATION
+
+# Start card digitization
+- request:
+    url: ^/api/v1/carddigitization/digitization-confirmation$
+    method: POST
+  response:
+    - status: 204 #428 - MFA
+      headers:
+        content-type: application/json
+
+# Send card digitization cryptograms
+- request:
+    url: ^/api/v1/carddigitization/digitization-cryptogram$
+    method: PATCH
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: carddigitization/v1/digitization-cryptogram.json
+
+# Update status of digitized card item
+- request:
+    url: ^/api/v1/carddigitization/cards/query
+    method: PATCH
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region CARD-PAYMENT V3
+
+# Pending payment list response
+- request:
+    url: ^/api/v3/cards/cards/payments/pending$
+    method: GET
+  response:
+    - status: 200
+      latency: 3000
+      headers:
+        content-type: application/json
+      file: card-payment/v3/card_payments.json
+
+# Payment details default response
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/.+$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment.json
+
+# Card payment confirmation successful response with URL
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/102103037/confirmation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment_confirmation_success_with_url.json
+
+# Card payment confirmation already confirmed response
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/102103033/confirmation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment_confirmation_already_confirmed.json
+
+# Card payment confirmation timeout response
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/102103034/confirmation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment_confirmation_timeout.json
+
+# Card payment confirmation failed response
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/102103035/confirmation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment_confirmation_failed.json
+
+# Card payment confirmation successful response
+- request:
+    url: ^/api/v3/cards/cards/.+/payments/.+/confirmation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: card-payment/v3/pending_card_payment_confirmation_success.json
+
+# endregion
+
+# region CARDINFO V5
+
+# Default response
+- request:
+    url: ^/api/v5/cards/cards/.*
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      #file: cardinfo/v5/cards_allcredit.json
+      file: cardinfo/v5/cards.json
+
+# Inactive cards
+# - request:
+#     url: ^/api/v5/cards/cards/.*
+#     method: GET
+#   response:
+#     - status: 200
+#       latency: 1500
+#       headers:
+#         content-type: application/json
+#       file: cardinfo/v5/cards_inactive.json
+
+# Empty response with no cards
+#-  request:
+#      url: ^/api/v5/cards/card/.*
+#      method: GET
+#   response:
+#    - status: 206
+#      headers:
+#         content-type: application/json
+#      file: cardinfo/v5/cards_empty.json
+
+# Empty response with no cards and UNKNOWN_ERROR
+#-  request:
+#      url: ^/api/v5/cards/card/.*
+#      method: GET
+#   response:
+#    - status: 206
+#      headers:
+#         content-type: application/json
+#      file: cardinfo/v5/cards_empty_unknown_error.json
+#
+
+# Reponse that contains cards and UNKNOWN_ERROR
+#-  request:
+#      url: ^/api/v5/cards/card/.*
+#      method: GET
+#   response:
+#    - status: 206
+#      headers:
+#         content-type: application/json
+#      file: cardinfo/v5/cards_unknown_error.json
+
+# Reponse that indicates a backend error and contains CARDINFO_0006
+#-  request:
+#      url: ^/api/v5/cards/card/.*
+#      method: GET
+#   response:
+#    - status: 500
+#      headers:
+#         content-type: application/json
+#      file: cardinfo/v5/cards_backend_error.json
+#
+- request:
+    url: ^/api/v5/cards/cards/webcards/.*
+    query:
+      transaction_id: \w+
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/webcard.json
+
+- request:
+    url: ^/api/v5/cards/cards/webcards/.*
+    method: GET
+  response:
+    - status: 428
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/webcard_authenticate.json
+
+- request:
+    url: ^/api/v5/cards/cards/5210612203940520/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5210612203940520.json
+
+- request:
+    url: ^/api/v5/cards/cards/5321808999932327/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5321808999932327.json
+
+- request:
+    url: ^/api/v5/cards/cards/5437586236090452/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5437586236090452.json
+
+- request:
+    url: ^/api/v5/cards/cards/5101211270660830/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5101211270660830.json
+
+- request:
+    url: ^/api/v5/cards/cards/5210613103940537/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5210613103940537.json
+
+- request:
+    url: ^/api/v5/cards/cards/5210613103940529/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5210613103940529.json
+
+- request:
+    url: ^/api/v5/cards/cards/5455489769999990/limits$
+    method: GET
+  response:
+    - status: 200
+      latency: 1500
+      headers:
+        content-type: application/json
+      file: cardinfo/v5/limits_5455489769999990.json
+
+# CARDMANAGEMENT-V5
+
+# Geolocation update
+- request:
+    url: ^/api/v5/cardmanagement/card/\w+/geolocation$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/geolocation_updated.json
+
+# Card status
+
+## Successful responses
+- request:
+    url: ^/api/v5/cardmanagement/card/(5210613103940529|5210612203940520)/cardstatus$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/cardstatus_success.json
+
+## Partial successful responses
+- request:
+    url: ^/api/v5/cardmanagement/card/5210613103940537/cardstatus$
+    method: PATCH
+  response:
+    - status: 500
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/cardstatus_partial_success.json
+
+## Every other card will fail
+- request:
+    url: ^/api/v5/cardmanagement/card/\w+/cardstatus$
+    method: PATCH
+  response:
+    - status: 500
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/cardstatus_fail.json
+
+# Limit modification succeeds without MFA
+- request:
+    url: ^/api/v5/cardmanagement/card/\w+/limits$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/limits_success.json
+
+# EPin
+
+## EPin change succeeds without MFA
+- request:
+    url: ^/api/v5/cardmanagement/card/\w+/epin$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/epin.json
+
+## EPin change fails without MFA
+# - request:
+#     url: ^/api/v5/cardmanagement/card/\w+/epin$
+#     method: PUT
+#   response:
+#     - status: 500
+#       headers:
+#         content-type: application/json
+#       file: cardmanagement/v5/epin.json
+
+## EPin change succeeds with MFA
+# - request:
+#     url: ^/api/v5/cardmanagement/card/\w+/epin$
+#     method: PUT
+#     query:
+#       transaction_id: 2991260088
+#   response:
+#     - status: 200
+#       headers:
+#         content-type: application/json
+#       file: cardmanagement/v5/epin.json
+
+# - request:
+#     url: ^/api/v5/cardmanagement/card/\w+/epin$
+#     method: PUT
+#   response:
+#    - status: 428
+#      headers:
+#         content-type: application/json
+#      file: cardmanagement/v5/mfa.json
+
+## EPin change fails with MFA
+# - request:
+#     url: ^/api/v5/cardmanagement/card/\w+/epin$
+#     method: PUT
+#     query:
+#       transaction_id: 2991260088
+#   response:
+#     - status: 500
+#       headers:
+#         content-type: application/json
+#       file: cardmanagement/v5/epin.json
+
+# - request:
+#     url: ^/api/v5/cardmanagement/card/\w+/epin$
+#     method: PUT
+#   response:
+#    - status: 428
+#      headers:
+#         content-type: application/json
+#      file: cardmanagement/v5/mfa.json
+
+# CnpLimit succeeds without MFA
+- request:
+    url: ^/api/v5/cardmanagement/card/\w+/cnplimit$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: cardmanagement/v5/cnplimit_success.json
+
+# endregion
+
+# region client-log
+- request:
+    url: ^/api/v4/client-log/client-error
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: client-log/client-error.json
+
+# endregion
+
+# region profile v4
+- request:
+    url: ^/api/v5/profile/customers$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: profile/profile.json
+
+- request:
+    url: ^/api/v5/profile/profiles/.*/settings$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: profile/profile_settings_success.json
+
+- request:
+    url: ^/api/v5/profile/profiles/.*/picture$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: profile/profile_picture.json
+
+- request:
+    url: ^/api/v5/profile/profiles/.*/picture$
+    method: PUT
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region messagebar
+- request:
+    url: ^/api/v6/messagebar/public-messagebar$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      #file: messagebar/messagebar_login_empty.json
+      file: messagebar/messagebar_login.json
+
+- request:
+    url: ^/api/v6/messagebar/messagebars$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: messagebar/messagebar_list_empty.json
+      # file: messagebar/messagebar_list.json
+
+# endregion
+
+# region mailbox v3
+- request:
+    url: ^/api/v3/mailbox/messages/unlistedcount$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: mailbox/unlistedcount.json
+
+- request:
+    url: ^/api/v3/mailbox/messages/inbox$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: mailbox/messages.json
+
+# endregion
+
+# region mailbox-v4
+- request:
+    url: ^/api/v4/mailbox/messages/unlistedcount$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: mailbox/unlistedcount.json
+
+- request:
+    url: ^/api/v4/mailbox/messages$
+    method: GET
+  response:
+    - status: 200
+      latency: 800
+      headers:
+        content-type: application/json
+      file: mailbox/v4/messages.json
+
+- request:
+    url: ^/api/v4/mailbox/messages$
+    method: PATCH
+    post: ^.*c32bba7a2d2d48e5904a912dd7a9afd2.*$
+  response:
+    - status: 404
+      latency: 500
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v4/mailbox/messages$
+    method: PATCH
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: mailbox/v4/messages_read.json
+# endregion
+
+# region deposit
+- request:
+    url: ^/api/v5/deposit/deposits/by-currency$
+    method: GET
+    query:
+      profileId: .*
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: deposit/deposits_by_ccy_groups.json
+
+# endregion
+
+# region DEPOSIT TRANSACTIONS
+
+# deposit-products
+- request:
+    url: ^/api/v1/deposit-transactions/deposit-products$
+    method: GET
+    query:
+      account_number: ^\w*$
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: deposit/deposit-products.json
+
+# calculations
+- request:
+    url: ^/api/v1/deposit-transactions/calculations?\w+$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: deposit/deposit_purchase_calculation_result.json
+
+# purchase-transactions
+- request:
+    url: ^/api/v1/deposit-transactions/purchase-transactions?\w+$
+    method: POST
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_purchase_transaction_response.json
+
+- request:
+    url: ^/api/v1/deposit-transactions/purchase-transactions/?\w+$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_purchase_transaction_finished.json
+
+# break-transactions
+- request:
+    url: ^/api/v1/deposit-transactions/break-transactions?\w+$
+    method: POST
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_break_transaction_response.json
+
+- request:
+    url: ^/api/v1/deposit-transactions/break-transactions/?\w+$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_break_transaction_finished.json
+
+# return-transactions
+- request:
+    url: ^/api/v1/deposit-transactions/return-transactions?\w+$
+    method: POST
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_return_transaction_response.json
+
+- request:
+    url: ^/api/v1/deposit-transactions/return-transactions/?\w+$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: deposit/deposit_return_transaction_finished.json
+
+# endregion
+
+# region TRANSFER v12
+
+## Recent transfers
+
+# Query recent transfers - one recent transfer - Try to initiate a transfer with amount containing 666 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recent$
+    method: POST
+    post: ^.+666.+$
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/recent_transfers/post_transfers_recent_response_success_one_recent_transfer.json
+
+# Query recent transfers - multiple recent transfers - Try to initiate a transfer with amount containing 777 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recent$
+    method: POST
+    post: ^.+777.+$
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/recent_transfers/post_transfers_recent_response_success_multiple_recent_transfers.json
+
+# Query recent transfers - multiple recent transfers with IBAN - Try to initiate a transfer with amount containing 888 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recent$
+    method: POST
+    post: ^.+888.+$
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/recent_transfers/post_transfers_recent_response_success_multiple_recent_transfers_with_iban.json
+
+# Query recent transfers - recent transfer query fails - Try to initiate a transfer with amount containing 999 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recent$
+    method: POST
+    post: ^.+999.+$
+  response:
+    - status: 500
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/transfer_error_TRANSFER_0001.json
+
+# Query recent transfers - there are no recent transfers
+- request:
+    url: ^/api/v12/update/transfers/recent$
+    method: POST
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/recent_transfers/post_transfers_recent_response_success_no_recent_transfers.json
+
+## Transfer date forecast
+
+# Query recurring transfer frequency data - ERROR - too short interval - Try to initiate a transfer with end date 2030-01-01 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recurring/transfer-date-forecast$
+    method: POST
+    post: ^.+2030\-01\-01.+$
+  response:
+    - status: 500
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/transfer_error_TRANSFER_0025.json
+
+# Query recurring transfer frequency data - query fails - Try to initiate a transfer with end date 2030-01-02 to receive this response
+- request:
+    url: ^/api/v12/update/transfers/recurring/transfer-date-forecast$
+    method: POST
+    post: ^.+2030\-01\-02.+$
+  response:
+    - status: 500
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/transfer_error_TRANSFER_0001.json
+
+# Query recurring transfer frequency data - Set frequency to any other than "Once" to receive these responses
+- request:
+    url: ^/api/v12/update/transfers/recurring/transfer-date-forecast$
+    method: POST
+    post: ^.+"frequencyType"\s*:\s*"([A-Z_]+)".+$
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/date_forecast/post_transfer_date_forecast_response_<% post[1] %>.json
+      body: {}
+
+## IBAN details
+
+# Query IBAN details
+- request:
+    url: ^/api/v12/update/iban-accounts/([a-zA-Z0-9]+)
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/iban_details/iban_details_<% url[1] %>.json
+      body: {"type":"OTHER_BANK","sepaCapable":false,"countryCode":"N/A","ibanInstitutionName":"N/A"}
+
+## Transfer requests
+
+### Time out
+
+# Transfer requests that will time out in the end and does not require MFA - Use a reference that contains "timeout nomfa" to receive these responses
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+    post: ^.+timeout\snomfa.+$
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/parking_transaction_response_will_time_out.json
+
+# Transfer requests that will time out in the end and does require MFA - Use a reference that contains "timeout" to receive these responses
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+    post: ^.+timeout.+$
+  response:
+    - status: 428
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/mfa_data/mfa_data_will_time_out.json
+
+# GET Parking transfer response for transfers that will time out
+- request:
+    url: ^/api/v12/update/parking-transfers/ae7f3dd4\-e93a\-4758\-a32c\-f60c30d0cb51$
+    method: GET
+  response:
+    - status: 204
+      latency: 1000
+      headers:
+        content-type: application/json
+
+### FAILED / PARKING / PENDING / TANKING
+
+# Transfer requests that will be FAILED / PARKING / PENDING / TANKING in the end and does not require MFA - Use a reference that contains "failed/parking/pending/tanking nomfa" to receive these responses
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+    post: ^.+(failed|parking|pending|tanking)\snomfa.+$
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/parking_transaction_response_will_be_<% post[1] %>.json
+
+# Transfer requests that will be FAILED / PARKING / PENDING / TANKING in the end and does require MFA - Use a reference that contains "failed/parking/pending/tanking" to receive these responses
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+    post: ^.+(failed|parking|pending|tanking).+$
+  response:
+    - status: 428
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/mfa_data/mfa_data_will_be_<% post[1] %>.json
+
+# GET Parking transfer response for FAILED transfers
+- request:
+    url: ^/api/v12/update/parking-transfers/3fb4404b\-8805\-4cbe\-81ed\-eab68c3630f7$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/get_parking_transfers_response_failed.json
+
+# GET Parking transfer response for PARKING transfers
+- request:
+    url: ^/api/v12/update/parking-transfers/93a84161\-6d73\-4de9\-a6fa\-ab7b92f5463a$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/get_parking_transfers_response_parking.json
+
+# GET Parking transfer response for PENDING transfers
+- request:
+    url: ^/api/v12/update/parking-transfers/415615cf\-92fd\-4bd1\-977b\-52c1a3361a31$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/get_parking_transfers_response_pending.json
+
+# GET Parking transfer response for TANKING transfers
+- request:
+    url: ^/api/v12/update/parking-transfers/fee3255d\-af8d\-430b\-a28a\-2ef20a2202b2$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/get_parking_transfers_response_tanking.json
+
+### SUCCEEDED
+
+# Transfer requests that will be SUCCEEDED in the end and does not require MFA - Use a reference that contains "nomfa" to receive this response
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+    post: ^.+nomfa.+$
+  response:
+    - status: 201
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/parking_transaction_response_will_be_succeeded.json
+
+# Transfer requests that will be SUCCEEDED in the end and does require MFA
+- request:
+    url: ^/api/v12/update/transfers/(instant\-payment|value\-date|recurring|sepa)$
+    method: POST
+  response:
+    - status: 428
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/mfa_data/mfa_data_will_be_succeeded.json
+
+# GET Parking transfer response for SUCCEEDED transfers
+- request:
+    url: ^/api/v12/update/parking-transfers/2f6f1801\-ccf1\-4f37\-8f30\-f316664bc7d2$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/parking/get_parking_transfers_response_succeeded.json
+
+## Payment request fulfillment
+
+- request:
+    url: ^/api/v12/update/transfers/payment-request-fulfillments$
+    method: POST
+    post: ^.+OTPVHUH0_902.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/transfer_error_TRANSFER_1000.json
+
+- request:
+    url: ^/api/v12/update/transfers/payment-request-fulfillments$
+    method: POST
+    post: ^.+OTPVHUH0_905.+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/transfer_error_TRANSFER_0001.json
+
+- request:
+    url: ^/api/v12/update/transfers/payment-request-fulfillments$
+    method: POST
+    post: ^.+OTPVHUH0_(\d+).+$
+  response:
+    - status: 201
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/parking_transaction_payment_request_fulfillment_OTPVHUH0_<% post[1] %>.json
+
+# GET Parking transfer response for payment request fulfillment OTPVHUH0_04
+- request:
+    url: ^/api/v12/update/parking-transfers/dab25185\-975a\-428a\-9973\-737d09c3c414$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_04.json
+
+# GET Parking transfer response payment request OTPVHUH0_05
+- request:
+    url: ^/api/v12/update/parking-transfers/024f2831\-538f\-46e6\-86bf\-6369a3847867$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_05.json
+
+# GET Parking transfer response for payment request OTPVHUH0_06
+- request:
+    url: ^/api/v12/update/parking-transfers/e3309caf\-3bc2\-459a\-bb30\-75b507041489$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_06.json
+
+# GET Parking transfer response for payment request OTPVHUH0_900
+- request:
+    url: ^/api/v12/update/parking-transfers/d30e94ab\-03b8\-46c9\-ba1e\-8e52ad816add$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_900.json
+
+# GET Parking transfer response for payment request OTPVHUH0_901
+- request:
+    url: ^/api/v12/update/parking-transfers/adafc4ac\-a532\-480f\-be78\-e523fdc1dc65$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_901.json
+
+# GET Parking transfer response for payment request OTPVHUH0_903
+- request:
+    url: ^/api/v12/update/parking-transfers/4a9d0d53\-3067\-4530\-8e4f\-9a07f847bc3c$
+    method: GET
+  response:
+    - status: 204
+      latency: 1000
+
+# GET Parking transfer response for payment request OTPVHUH0_904
+- request:
+    url: ^/api/v12/update/parking-transfers/01d9ab99\-1b1c\-4ad2\-9da4\-4c1af49bdedc$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: transfer/v12/payment_request/get_parking_transfers_response_payment_request_fulfillment_OTPVHUH0_904.json
+
+## Delete future transfer
+- request:
+    url: ^/api/v12/update/transfers/\w+/future$
+    method: DELETE
+  response:
+    - status: 428
+      latency: 500
+      headers:
+        content-type: application/json
+      file: transfer/v12/mfa_data/mfa_data_will_be_succeeded.json
+
+## Charities
+- request:
+    url: ^/api/v12/update/charities$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: transfer/v12/charities.json
+
+# endregion
+
+# region Login
+- request:
+    url: ^/api/v10/login/settings/mifid$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/transaction$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/transaction.json
+
+- request:
+    url: ^/api/v10/login/verifychallengemobile$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/verifychallengemobile.json
+
+### Direct QR Code
+
+# More info: https://otpconfluence.hu/pages/viewpage.action?pageId=355543958
+
+- request:
+    url: ^/api/v10/login/approved-direkt-transactions$
+    method: POST
+  response:
+    - status: 403
+      headers:
+        content-type: application/json
+      file: login/direct_qr_approve_failed.json
+
+#- request:
+#    url: ^/api/v10/login/approved-direkt-transactions$
+#    method: POST
+#  response:
+#    - status: 204
+#      headers:
+#        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/otp$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/otp.json
+
+#- request:
+#    url: ^/api/v10/login/otp$
+#    method: PUT
+#  response:
+#    - status: 200
+#      headers:
+#        content-type: application/json
+#      file: login/otp_with_code.json
+
+#- request:
+#    url: ^/api/v10/login/otp$
+#    method: PUT
+#  response:
+#    - status: 400
+#      headers:
+#        content-type: application/json
+#      file: login/device_activation_failed.json
+#
+#- request:
+#    url: ^/api/v10/login/otp$
+#    method: PUT
+#  response:
+#    - status: 400
+#      headers:
+#        content-type: application/json
+#      file: login/invalid_sla.json
+
+- request:
+    url: ^/api/v10/login/settings/mifid$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/device/mobile$
+    method: PUT
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/device/mobile$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/devicemobile.json
+
+- request:
+    url: ^/api/v10/login/device/mobile/\w+/.+$
+    method: DELETE
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/device/\w+/.+$
+    method: DELETE
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/device.json
+
+- request:
+    url: ^/api/v10/login/fingerprint/.+$
+    method: POST
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/login$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+        mobilebank-android-minimum-version: 1
+        mobilebank-android-current-version: 5900
+        mobilebank-ios-minimum-version: 1
+        mobilebank-ios-current-version: 5801
+      file: login/login.json
+
+- request:
+    url: ^/api/v10/login/accesstoken$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/accesstoken.json
+
+- request:
+    url: ^/api/v10/login/accesstokenwithlongexpiration$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: background_token.json
+
+- request:
+    url: ^/api/v10/login/loginbychallenge$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/loginbychallenge.json
+
+# -  request:
+#       url: ^/api/v10/login/loginbychallenge$
+#       method: POST
+#    response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: login/loginbychallengefraud.json
+
+# -  request:
+#       url: ^/api/v10/login/loginbychallenge$
+#       method: POST
+#    response:
+#     - status: 400
+#       headers:
+#         content-type: application/json
+#       file: login/loginbychallenge_device_removed.json
+
+- request:
+    url: ^/api/v10/login/device/.+/localstoragesecret$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/localstoragesecret.json
+
+- request:
+    url: ^/api/v10/login/logout$
+    method: DELETE
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/device/mobile/activation$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/device_activation_success.json
+
+# Early device activation
+# -  request:
+#       url: ^/api/v10/login/device/mobile/activation$
+#       method: POST
+#    response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: login/device_activation_early.json
+
+# # Already active device
+# -  request:
+#       url: ^/api/v10/login/device/mobile/activation$
+#       method: POST
+#    response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: login/device_already_active.json
+
+# # Failed device activation
+# -  request:
+#       url: ^/api/v10/login/device/mobile/activation$
+#       method: POST
+#    response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: login/device_activation_failed.json
+
+- request:
+    url: ^/api/v10/login/safetynet/nonce$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/safetynetnonce.json
+
+- request:
+    url: ^/api/v10/login/safetynet/nonce$
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v10/login/quickbalanceaccount$
+    method: POST
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: login/quickbalanceaccounts_200.json
+
+- request:
+    url: ^/api/v10/login/passwords
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+#-  request:
+#     url: ^/api/v10/login/passwords
+#     method: POST
+#   response:
+#     - status: 400
+#       headers:
+#         content-type: application/json
+#       file: registration/register_passwords_failed.json
+
+- request:
+    url: ^/api/v10/login/transaction/1234567890/displaydata
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: login/mfa_push_login_displaydata.json
+
+- request:
+    url: ^/api/v10/login/customers$
+    method: GET
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: login/customers.json
+
+# - request:
+#     url: ^/api/v10/login/customers$
+#     method: GET
+#   response:
+#     - status: 200
+#       latency: 1000
+#       headers:
+#         content-type: application/json
+#       file: login/customers_empty.json
+
+# - request:
+#     url: ^/api/v10/login/customers$
+#     method: GET
+#   response:
+#     - status: 403
+#       latency: 1000
+#       headers:
+#         content-type: application/json
+#       file: login/customers_error.json
+
+# endregion
+
+# region DSZK registration
+
+- request:
+    url: ^/api/v5/registration/login$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/login_success.json
+
+#- request:
+#    url: ^/api/v5/registration/login$
+#    method: POST
+#  response:
+#    - status: 400
+#      headers:
+#        content-type: application/json
+#      file: registration/login_error.json
+
+- request:
+    url: ^/api/v5/registration/checkhaz
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/checkhaz_only_one_account.json
+
+#- request:
+#    url: ^/api/v5/registration/checkhaz
+#    method: GET
+#  response:
+#    - status: 200
+#      headers:
+#        content-type: application/json
+#      file: registration/checkhaz_more_accounts.json
+
+- request:
+    url: ^/api/v5/registration/emails
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/used_emails.json
+
+- request:
+    url: ^/api/v5/registration/emails
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+#- request:
+#    url: ^/api/v5/registration/emails
+#    method: PUT
+#  response:
+#    - status: 400
+#      headers:
+#        content-type: application/json
+#      file: registration/register_email_failed.json
+
+- request:
+    url: ^/api/v5/registration/documents
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/generate_document_success.json
+
+- request:
+    url: ^/api/v5/registration/statements
+    method: PUT
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v5/registration/registration
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v5/registration/sendconfirmemail
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/send_confirm_email.json
+
+#- request:
+#    url: ^/api/v5/registration/registration
+#    method: POST
+#  response:
+#    - status: 400
+#      headers:
+#        content-type: application/json
+#      file: registration/registration_failed.json
+
+- request:
+    url: ^/api/v5/registration/deletecontract
+    method: DELETE
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v5/registration/checkconfirmemail$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: registration/check_confirm_email_success.json
+
+#-  request:
+#     url: ^/api/v5/registration/checkconfirmemail$
+#     method: GET
+#   response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: registration/check_confirm_email_already_confirmed.json
+
+#-  request:
+#     url: ^/api/v5/registration/checkconfirmemail$
+#     method: GET
+#   response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: registration/check_confirm_email_expired.json
+
+#-  request:
+#     url: ^/api/v5/registration/checkconfirmemail$
+#     method: GET
+#   response:
+#     - status: 400
+#       headers:
+#          content-type: application/json
+#       file: registration/check_confirm_email_unknown_error.json
+
+# endregion
+
+# region contract settings
+- request:
+    url: ^/api/v2/contract-settings/settings/\w+$
+    method: PATCH
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+      file: contract-settings/settings.json
+
+- request:
+    url: ^/api/v2/contract-settings/settings/\w+$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: contract-settings/settings.json
+
+## No settings available for the given user
+#-  request:
+#      url: ^/api/v2/contract-settings/settings/\w+$
+#      method: GET
+#   response:
+#    - status: 404
+#      headers:
+#         content-type: application/json
+#      file: contract-settings/settings-SET_006.json
+
+# endregion
+
+# region GIRO-PROXY v1
+
+## Account numbers
+
+### OTP account numbers: valid without instant payment limit - enter an account number starting with 117 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/AccountNumber/117(\d{13}|\d{21})/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_unlimited.json
+
+### Invalid account number - call the endpoint with an account number containing only the digit 6 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/AccountNumber/([6]{16}|[6]{24})/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_invalid.json
+
+## Phone numbers
+
+### Valid phone numbers with low instant payment limit - Enter a phone number ending with 0000000 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/PhoneNumber/\+36(20|30|31|50|70)0000000/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_small_limit.json
+
+### Invalid phone numbers - Enter a phone number ending with 6666666 zeros to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/PhoneNumber/\+36(20|30|31|50|70)6666666/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_invalid.json
+
+## E-mail addresses
+
+### Valid e-mail addresses with low instant payment limit - Use limited.com domain to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/Email/.+@limited\.com/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_small_limit.json
+
+### Invalid e-mail addresses - Use invalid.com domain to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/Email/.+@invalid\.com/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_invalid.json
+
+### Valid e-mail addresses with no instant payment limit - Use otpbank.hu domain to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/Email/.+@otpbank\.hu/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_unlimited_with_constant.json
+
+## Tax numbers
+
+### Valid tax number with low instant payment limit - Use 10000001 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/TaxNumber/10000001/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_small_limit.json
+
+### Invalid tax number - Use 16666661 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/TaxNumber/16666661/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_invalid.json
+
+## Tax identifiers
+
+### Valid tax identifier with low instant payment limit - Use 8000000008 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/TaxId/8000000008/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_small_limit.json
+
+### Invalid tax identifier - Use 8666666668 to receive this response
+- request:
+    url: ^/api/v1/giro-proxy/TaxId/8666666668/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_invalid.json
+
+## Fallback
+
+### Let every unmatched be valid with default instant payment limit
+- request:
+    url: ^/api/v1/giro-proxy/(AccountNumber|PhoneNumber|Email|TaxId|TaxNumber)/[^/]+/validity$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: giro-proxy/v1/get_secondary_identifiers_validity_response_valid_default_limit.json
+
+# endregion
+
+# region PostaQR
+
+# Validate an existing bill payment
+- request:
+    url: ^/api/v3/posta-qr-payment/payments/bill-data$
+    method: POST
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: posta-qr-payment/v3/validate-existing-payment.json
+
+# # Validate bill payment with partial bill payment
+# # All user entry - validate-partial-bill-payment-all-user-entry.json
+# # All user entry with error codes - validate-partial-bill-payment-with-error-codes.json
+# # Amount only - validate-partial-bill-payment-amount-only.json
+#- request:
+#    url: ^/api/v3/posta-qr-payment/payments/bill-data$
+#    method: POST
+#  response:
+#    - status: 422
+#      latency: 2000
+#      headers:
+#        content-type: application/json
+#      file: posta-qr-payment/v3/validate-partial-bill-payment-all-user-entry.json
+
+# # Validate a new bill payment
+# - request:
+#     url: ^/api/v3/posta-qr-payment/payments/bill-data$
+#     method: POST
+#   response:
+#     - status: 200
+#       latency: 2000
+#       headers:
+#         content-type: application/json
+#       file: posta-qr-payment/v3/validate-existing-payment.json
+
+# # Validate bill payment with large amount
+# - request:
+#     url: ^/api/v3/posta-qr-payment/payments/bill-data$
+#     method: POST
+#   response:
+#     - status: 400
+#       latency: 2000
+#       headers:
+#         content-type: application/json
+#       file: posta-qr-payment/v3/validate-amount-too-large-error.json
+
+# Confirm a bill payment
+- request:
+    url: ^/api/v3/posta-qr-payment/payments/.+/payer$
+    query:
+      transaction_id: \w+
+    method: POST
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# MFA for bill payment confirmation
+- request:
+    url: ^/api/v3/posta-qr-payment/payments/.+/payer$
+    method: POST
+  response:
+    - status: 428
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: posta-qr-payment/v3/fulfill_authenticate.json
+
+# Terms and conditions for bill payment
+- request:
+    url: ^/api/v3/posta-qr-payment/terms$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: posta-qr-payment/v3/terms_and_conditions.json
+      # file: posta-qr-payment/v3/outdated_terms_and_conditions.json
+
+# Accept T&C for bill payment
+- request:
+    url: ^/api/v3/posta-qr-payment/terms/.+/acceptance$
+    method: POST
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# Fetch bill payment transaction id for given transaction
+- request:
+    url: ^/api/v3/posta-qr-payment/payments$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: posta-qr-payment/v3/fetch_payment_transaction_id.json
+
+# Resend notification for bill payment
+- request:
+    url: ^/api/v3/posta-qr-payment/payments/.+/notifications$
+    query:
+      profileId: .*
+    method: POST
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# endregion
+
+# region GOVERNMENT BONDS
+# ---- list of available / purchasable government bonds
+- request:
+    url: ^/api/v3/bonds/available/details$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: governmentbonds/available_government_bonds.json
+
+# ---- calculation before the purchase
+- request:
+    url: ^/api/v3/bonds/.+/calculations$
+    method: POST
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: governmentbonds/government_bonds_calculation.json
+
+# ---- calculation purchase limit error
+#- request:
+#    url: ^/api/v3/bonds/.+/calculations$
+#    method: POST
+#  response:
+#    - status: 500
+#      latency: 1000
+#      headers:
+#        content-type: application/json
+#      file: governmentbonds/government_bonds_transaction_sec_1005_error.json
+
+# ---- purchase successfully done
+- request:
+    url: ^/api/v3/bonds/.+/purchases$
+    method: POST
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: governmentbonds/government_bonds_purchase_accepted.json
+
+# ---- in-progress transactions
+- request:
+    url: ^/api/v3/securities/transactions$
+    method: GET
+    query:
+      securityType: ^\w+$
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: governmentbonds/government_bonds_in_progress_transactions.json
+
+# ---- transaction documents list
+- request:
+    url: ^/api/v3/securities/transactions/\w+/documents$
+    method: GET
+    query:
+      accountNumber: ^[\s\S]+$
+      transactionType: ^\w+$
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: governmentbonds/government_bonds_document.json
+
+# ---- purchase successfully sent, but the back-system couldn't answer whether the purchase was a success or a fail
+#- request:
+#    url: ^/api/v3/bonds/.+/purchases$
+#    method: POST
+#  response:
+#    - status: 202
+#      latency: 1000
+#      headers:
+#        content-type: application/json
+#      file: governmentbonds/government_bonds_purchase_202.json
+
+# ---- purchase error
+#- request:
+#    url: ^/api/v3/bonds/.+/purchases$
+#    method: POST
+#  response:
+#    - status: 500
+#      latency: 1000
+#      headers:
+#        content-type: application/json
+#      file: governmentbonds/government_bonds_not_enough_balance_500.json
+
+# endregion
+
+# region INSURANCE
+- request:
+    url: ^/api/v3/insurance/insurances$
+    method: GET
+    query:
+      type: ^TRAVEL$
+      status: ^ACTIVE$
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: insurance/travel-insurances.json
+
+- request:
+    url: ^/api/v3/insurance/travel-insurances/1111$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: insurance/travel-insurance_1111.json
+
+- request:
+    url: ^/api/v3/insurance/travel-insurances/2222$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: insurance/travel-insurance_2222.json
+
+# endregion INSURANCE
+
+# region OIP SERVICE
+- request:
+    url: ^/api/v14/oip/aspsps
+    method: GET
+  response:
+    - status: 200
+      latency: 200
+      headers:
+        content-type: application/json
+      file: oip/aspsps.json
+
+- request:
+    url: ^/api/v14/oip/fields
+    method: GET
+  response:
+    - status: 200
+      latency: 200
+      headers:
+        content-type: application/json
+      file: oip/fields_kh.json
+
+- request:
+    url: ^/api/v14/oip/consents
+    method: POST
+  response:
+    - status: 200
+      latency: 200
+      headers:
+        content-type: application/json
+      file: oip/consents_success.json
+
+# endregion
+
+# region consents
+- request:
+    url: ^/api/v14/consents/\w+/authorization
+    method: POST
+  response:
+    - status: 204
+      latency: 200
+      headers:
+        content-type: application/json
+      file: oip/authorization_success.json
+
+# endregion
+
+# region bankcalendar v1
+
+## Response indicating the requested day is not banking day, but the next day will be - Choose the 29th of any month except February to receive this response
+- request:
+    url: ^/api/v1/calendar/calendar/date/(\d{4}\-\d[013-9])\-29$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: bankcalendar/v1/get_calendar_date_response_not_banking_day.json
+
+## Response indicating the requested day is banking day - Choose any other day not specified above to receive this response
+- request:
+    url: ^/api/v1/calendar/calendar/date/.+$
+    method: GET
+  response:
+    - status: 200
+      latency: 500
+      headers:
+        content-type: application/json
+      file: bankcalendar/v1/get_calendar_date_response_banking_day.json
+
+# endregion
+
+# region discount-program
+
+# ---- Fetch discounts with category filter returning empty result
+- request:
+    url: ^/api/v1/discounts/discounts
+    query:
+      category: AUTOMOTIVE
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discounts_empty.json
+
+# ---- Fetch discounts with activated filter returning partial result
+- request:
+    url: ^/api/v1/discounts/discounts
+    query:
+      activated: true|false
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discounts_activated.json
+
+# ---- Fetch discounts
+- request:
+    url: ^/api/v1/discounts/discounts$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discounts.json
+
+# ---- Failed discount activation (all discounts with id that starts with 50)
+- request:
+    url: ^/api/v1/discounts/discounts/50.+$
+    method: PATCH
+  response:
+    - status: 404
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Failed discount activation for 5139
+- request:
+    url: ^/api/v1/discounts/discounts/5139$
+    method: PATCH
+  response:
+    - status: 404
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Successful discount activation
+- request:
+    url: ^/api/v1/discounts/discounts/.+$
+    method: PATCH
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Activate all discounts
+- request:
+    url: ^/api/v1/discounts/discounts$
+    method: PATCH
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Details for discount 5138
+- request:
+    url: ^/api/v1/discounts/discounts/5138$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discount_details_5138.json
+
+# ---- Details for discount 5139
+- request:
+    url: ^/api/v1/discounts/discounts/5139$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discount_details_5139.json
+
+# ---- Details for discount 5042
+- request:
+    url: ^/api/v1/discounts/discounts/5042$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discount_details_5042.json
+
+# ---- Fetch discount registration status
+- request:
+    url: ^/api/v1/discounts/registration/status$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discount_program_registered.json
+      # file: discount-program/discount_program_not_registered.json
+
+# ---- Post discount registration settings
+- request:
+    url: ^/api/v1/discounts/registrations$
+    method: POST
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Put discount registration settings
+- request:
+    url: ^/api/v1/discounts/registrations$
+    method: PUT
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- Delete discount registration settings
+- request:
+    url: ^/api/v1/discounts/registrations$
+    method: DELETE
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+# ---- GET discount registration settings
+- request:
+    url: ^/api/v1/discounts/registrations$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: discount-program/discount_settings.json
+
+# endregion discount-program
+
+# region mobile-top-up
+- request:
+    url: ^/api/v2/mobile-top-up/phone-providers$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: mobiletopup/200-phone_providers.json
+
+- request:
+    url: ^/api/v2/mobile-top-up/beneficiaries$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: mobiletopup/200-beneficiaries.json
+
+- request:
+    url: ^/api/v2/mobile-top-up/mobile-top-up$
+    method: POST
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: mobiletopup/200-mobile_top_up.json
+
+# - request:
+#     url: ^/api/v2/mobile-top-up/mobile-top-up$
+#     method: POST
+#   response:
+#     - status: 400
+#       headers:
+#         content-type: application/json
+#       file: mobiletopup/400-mobile_top_up-1014.json
+
+- request:
+    url: ^/api/v2/mobile-top-up/beneficiaries/.+$
+    method: DELETE
+  response:
+    - status: 204
+      headers:
+        content-type: application/json
+
+# endregion mobile-top-up
+
+# region qr-code
+
+- request:
+    url: ^/api/v1/qr-code/qr-code-contents$
+    method: GET
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: qr-code/v1/qr-code-contents-success.json
+
+# - request:
+#     url: ^/api/v1/qr-code/qr-code-contents$
+#     method: GET
+#   response:
+#     - status: 400
+#       headers:
+#         content-type: application/json
+#       file: qr-code/v1/qr-code-contents-failure.json
+
+# endregion qr-code
+
+# region actualities
+
+# ---- GET actualities
+- request:
+    url: ^/api/v1/actualities/actualities$
+    method: GET
+    query:
+      profile_id: .*
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: actualities/v1/actualities.json
+# endregion actualities
+
+# region payment-request
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: GET
+    query:
+      status_group: ^ACTIVE$
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/pending-list.json
+
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: GET
+    query:
+      status_group: ^FINAL$
+      page_pointer: ^pagePointer1$
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/closed-list-page-2.json
+
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: GET
+    query:
+      status_group: ^FINAL$
+      page_pointer: ^$
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/closed-list-page-1.json
+#      file: payment-request/v2/empty-list.json
+
+# payment request removal success for OTPVHUH0_01
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_01$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: payment-request/v2/removed-payment-request-OTPVHUH0_01.json
+
+# payment request removal success for OTPVHUH0_02
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_02$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: payment-request/v2/removed-payment-request-OTPVHUH0_02.json
+
+# payment request removal failure for OTPVHUH0_03
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_03$
+    method: PATCH
+  response:
+    - status: 404
+      headers:
+        content-type: application/json
+
+# payment request rejection success for OTPVHUH0_04
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_04$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: payment-request/v2/rejected-payment-request-OTPVHUH0_04.json
+
+# payment request rejection success for OTPVHUH0_05
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_05$
+    method: PATCH
+  response:
+    - status: 200
+      headers:
+        content-type: application/json
+      file: payment-request/v2/rejected-payment-request-OTPVHUH0_05.json
+
+# payment request rejection failure for OTPVHUH0_06
+- request:
+    url: ^/api/v2/payments/payment-requests/OTPVHUH0_06$
+    method: PATCH
+  response:
+    - status: 404
+      headers:
+        content-type: application/json
+
+# payment request creation PENDING-RESTRICTED
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: POST
+    post: ^.+[Pp][Ee][Nn][Dd][Ii][Nn][Gg][Rr][Ee][Ss][Tt][Rr][Ii][Cc][Tt][Ee][Dd].+$
+  response:
+    - status: 200
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/create-payment-request-pending-restricted.json
+
+# payment request creation PENDING
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: POST
+    post: ^.+[Pp][Ee][Nn][Dd][Ii][Nn][Gg].+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/create-payment-request-pending.json
+
+# payment request creation general ERROR
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: POST
+    post: ^.+[Ee][Rr][Rr][Oo][Rr].+$
+  response:
+    - status: 500
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/create-payment-request-general-error.json
+
+# payment request creation SUCCESSFUL
+- request:
+    url: ^/api/v2/payments/payment-requests$
+    method: POST
+  response:
+    - status: 201
+      latency: 1000
+      headers:
+        content-type: application/json
+      file: payment-request/v2/create-payment-request-succeeded.json
+
+# endregion payment-request
+
+# region branch
+- request:
+    url: ^/api/v2/branch/branches$
+    method: GET
+  query:
+    topic_id: \w+
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/branches.json
+
+- request:
+    url: ^/api/v2/branch/topics
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/topics.json
+
+- request:
+    url: ^/api/v2/branch/branches/\w+/time-slots$
+    method: GET
+    query:
+      topic_id: ^\w+$
+      limit: 1
+      available: true
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/next_open_timeslot.json
+
+- request:
+    url: ^/api/v2/branch/branches/\w+/dates.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/dates.json
+
+- request:
+    url: ^/api/v2/branch/branches/\w+/time-slots.*$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/timeslots.json
+
+- request:
+    url: ^/api/v2/branch/appointments$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/appointment_list.json
+      # file: branch/empty_appointment_list.json
+
+- request:
+    url: ^/api/v2/branch/appointments
+    method: POST
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/new_appointment.json
+#      file: branch/finalize_error.json
+
+- request:
+    url: ^/api/v2/branch/appointments/\w+
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/appointment.json
+
+- request:
+    url: ^/api/v2/branch/appointments/\w+
+    method: DELETE
+  response:
+    - status: 204
+      latency: 2000
+      headers:
+        content-type: application/json
+
+- request:
+    url: ^/api/v2/branch/appointments/\w+
+    method: PUT
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: branch/new_appointment.json
+# endregion branch
+
+# region debit
+- request:
+    url: ^/api/v1/debit/accounts$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_2_retail_current_1_retail_webcard.json
+#      file: debit/v1/accounts_1_retail_current.json
+#      file: debit/v1/accounts_2_retail_current_1_retail_savings.json
+
+- request:
+    url: ^/api/v1/debit/accounts/1177301600000268$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_current_1177301600000268.json
+
+- request:
+    url: ^/api/v1/debit/accounts/1177317100183569$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_current_1177317100183569.json
+
+
+- request:
+    url: ^/api/v1/debit/accounts/1177336000773201$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_current_1177336000773201.json
+
+
+- request:
+    url: ^/api/v1/debit/accounts/1177538634526884$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_current_eur_1177538634526884.json
+
+
+- request:
+    url: ^/api/v1/debit/accounts/1177333901087909$
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_savings_1177333901087909.json
+
+- request:
+    url: ^/api/v1/debit/accounts/1177136800773201
+    method: GET
+  response:
+    - status: 200
+      latency: 2000
+      headers:
+        content-type: application/json
+      file: debit/v1/accounts_retail_webcard_1177136800773201.json
+# endregion debit
